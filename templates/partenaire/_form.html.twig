@@ -1,0 +1,26 @@
+{{ form_start(form) }}
+    <div class="form-group">
+        <div class="row">
+            <div class="col-12 mt-2">
+                {{ form_row(form.nom) }}
+            </div>
+            <div class="col-12 mt-2">
+                {{ form_row(form.contact) }}
+            </div>
+            <div class="col-12 mt-2">
+                {{ form_row(form.email) }}
+            </div>
+            <div class="col-12 mt-2">
+                {{ form_row(form.adresse) }}
+            </div>
+            <div class="col-12 mt-2">
+                {{ form_row(form.logo) }}
+            </div>
+        </div>
+    </div>
+    {{ form_widget(form) }}
+    <div class="text-right">
+        <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+    </div>
+
+{{ form_end(form) }}
