@@ -31,6 +31,11 @@ class Categorie
      */
     private $slug;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Domaine", inversedBy="categories")
+     */
+    private $domaine;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +73,18 @@ class Categorie
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getDomaine(): ?Domaine
+    {
+        return $this->domaine;
+    }
+
+    public function setDomaine(?Domaine $domaine): self
+    {
+        $this->domaine = $domaine;
 
         return $this;
     }

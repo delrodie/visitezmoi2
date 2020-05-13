@@ -26,7 +26,8 @@
                                 <thead>
                                 <tr>
                                     <th class="text-center">ID</th>
-                                    <th class="text-center">CATEGORIES</th>
+                                    <th class="text-center">DOMAINES</th>
+                                    <th class="text-center">SOUS CATEGORIES</th>
                                     <th class="text-center">NOMBRE DE BIENS</th>
                                     <th class="text-center">ACTIONS</th>
                                 </tr>
@@ -35,6 +36,7 @@
                                 {% for categorie in categories %}
                                     <tr>
                                         <td class="text-right mr-3">{{ loop.index }}</td>
+                                        <td>{{ categorie.domaine.libelle }}</td>
                                         <td>{{ categorie.libelle }}</td>
                                         <td>{{ categorie.nombreBien }}</td>
                                         <td class="text-center">

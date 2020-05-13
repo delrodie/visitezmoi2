@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Categorie;
 use App\Form\CategorieType;
 use App\Repository\CategorieRepository;
+use App\Utilities\GestionLog;
+use App\Utilities\Utility;
 use Cocur\Slugify\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +18,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CategorieController extends AbstractController
 {
+
+    private $utility;
+    private $log;
+    private $user;
+
+    public function __construct(Utility $utility, GestionLog $log)
+    {
+        $this->utility = $utility;
+        $this->log = $log;
+    }
+
     /**
      * @Route("/", name="categorie_index", methods={"GET","POST"})
      */
@@ -34,8 +47,15 @@ class CategorieController extends AbstractController
             $entityManager->persist($categorie);
             $entityManager->flush();
 
+            $this->utility->addCategorie($categorie->getDomaine()->getId());
+
             return $this->redirectToRoute('categorie_index');
         }
+
+        //Enregistrerment du log
+        $action = $this->getUser()->getUsername()." a affiché la liste des sous catégories";
+        $this->log->addLog($action);
+
         return $this->render('categorie/index.html.twig', [
             'categories' => $categorieRepository->findBy([],['libelle'=>'ASC']),
             'categorie' => $categorie,
@@ -107,9 +127,12 @@ class CategorieController extends AbstractController
     public function delete(Request $request, Categorie $categorie): Response
     {
         if ($this->isCsrfTokenValid('delete'.$categorie->getId(), $request->request->get('_token'))) {
+            $domaineID = $categorie->getDomaine()->getId();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($categorie);
             $entityManager->flush();
+
+            $this->utility->deleteCategorie($domaineID);
         }
 
         return $this->redirectToRoute('categorie_index');
