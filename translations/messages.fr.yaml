@@ -4,7 +4,11 @@ You are logged in as : "Vous êtes connecté en tant que "
 Logout: "deconnexion"
 Please enter a password: "Veuillez entrer votre mot de passe"
 Your password should be at least {{ limit }} characters: "Votre mot de passe doit contenir au moins {{ limit }} caractères"
+Please sign in: "Connexion"
 
 security:
   PleaseEnterAPassword: "Veuillez entrer votre mot de passe"
   PasswordLimitCharacters: "Votre mot de passe doit contenir au moins 6 caractères"
+  Username: "Nom utilisateur"
+  Password: "Mot de passe"
+  Remember me: "Se souvenir de moi"
