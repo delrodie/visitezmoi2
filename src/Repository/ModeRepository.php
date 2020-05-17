@@ -19,6 +19,11 @@ class ModeRepository extends ServiceEntityRepository
         parent::__construct($registry, Mode::class);
     }
 
+    public function liste()
+    {
+        return $this->createQueryBuilder('m')->orderBy('m.libelle', "ASC");
+    }
+
     // /**
     //  * @return Mode[] Returns an array of Mode objects
     //  */

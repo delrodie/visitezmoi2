@@ -19,6 +19,11 @@ class CategorieRepository extends ServiceEntityRepository
         parent::__construct($registry, Categorie::class);
     }
 
+    public function liste()
+    {
+        return $this->createQueryBuilder('c')->orderBy('c.libelle', 'ASC');
+    }
+
     // /**
     //  * @return Categorie[] Returns an array of Categorie objects
     //  */

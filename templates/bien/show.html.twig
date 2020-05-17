@@ -1,0 +1,107 @@
+{% extends 'backoffice_layout.html.twig' %}
+
+{% block title %}{{ parent() }} Gestion des biens{% endblock %}
+
+{% block body %}
+    <div class="page-content-wrapper dashboard">
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">Gestion des biens </h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h4 class="mt-0 mb-5 header-title">
+                                <div class="float-right">
+                                    <a href="{{ path('bien_new') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Ajouter un bien</a>
+                                    <a href="{{ path('bien_edit',{'id': bien.id}) }}" class="btn btn-danger"><i class="fa fa-edit"></i> Modifier</a>
+                                    <a href="{{ path('bien_index') }}" class="btn btn-secondary"><i class="fa fa-list"></i> Liste des biens</a>
+                                </div>
+                            </h4>
+
+                            <div class="row mt-5">
+                                <div class="col-md-5 col-lg-3">
+                                    <div class="card m-b-30">
+                                        <div class="card-body">
+                                            <img src="{{ asset('uploads/partenaire/' ~ bien.partenaire.logo) }}" alt="" class="rounded-circle  mx-auto d-block w-80">
+                                            <div class="text-center">
+                                                <div class="mt-2 mb-0">{{ bien.partenaire.nom }}</div>
+                                                <small class="text-muted mb-2 p-2">{{ bien.partenaire.email }}</small>
+                                                <button class="btn btn-primary btn-block mb-2 mt-5">Liste des biens </button>
+                                            </div>
+                                            <div class="row text-center">
+                                                <div class="col-12 align-self-center p-0">
+                                                    <p class="font-32 mb-0">{{ bien.partenaire.biens|length }}</p>
+                                                    <p class="mb-0">biens</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="card m-b-30">
+                                                <h6 class="header-title pb-3 pt-2 pr-2">AUTRES BIENS</h6>
+                                                <ul class="list-unstyled">
+                                                    {% for biens in bien.partenaire.biens|slice(0,6) %}
+                                                        <li>
+                                                            <div class="row justify-content-between align-items-baseline">
+                                                                <div class="col-3 text-center align-items-center">
+                                                                    <img src="{{ asset('uploads/bien/'~ biens.media) }}" alt="" class="rounded-circle w-100">
+                                                                </div>
+                                                                <div class="col-9">
+                                                                    <a href="#">{{ biens.titre }}</a>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 col-lg-9">
+                                    <div class="card m-b-30">
+                                        <img class="card-img-top img-fluid" src="{{ absolute_url(asset('uploads/bien/' ~ bien.media)) }}" alt="{{ bien.titre }}">
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                <a href="#" class="float-right"><span class="badge badge-danger">{{ bien.partenaire.nom }}</span> </a>
+                                            </p>
+                                            <h5 class="card-title"><span class="badge badge-primary">{{ bien.mode.libelle }}</span> <a href="{{ path('bien_show', {'id': bien.id}) }}">{{ bien.titre }}</a></h5>
+                                            <p class="card-text">
+                                                {{ bien.description|striptags|slice(0,75)|raw }}...
+                                            </p>
+                                            <p class="card-text">
+                                                <small class="text-muted">
+                                                    {% for categorie in bien.categorie %}
+                                                        <span class="badge badge-info">{{ categorie.libelle }}</span>
+                                                    {% endfor %}
+                                                </small>
+                                                <a href="#" class="float-right"><i class="fa fa-calendar"></i> </a>
+                                            </p>
+                                            {{ include('bien/_delete_form.html.twig') }}
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

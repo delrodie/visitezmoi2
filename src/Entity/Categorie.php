@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +37,16 @@ class Categorie
      * @ORM\ManyToOne(targetEntity="App\Entity\Domaine", inversedBy="categories")
      */
     private $domaine;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Bien", mappedBy="categorie")
+     */
+    private $biens;
+
+    public function __construct()
+    {
+        $this->biens = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -85,6 +97,34 @@ class Categorie
     public function setDomaine(?Domaine $domaine): self
     {
         $this->domaine = $domaine;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Bien[]
+     */
+    public function getBiens(): Collection
+    {
+        return $this->biens;
+    }
+
+    public function addBien(Bien $bien): self
+    {
+        if (!$this->biens->contains($bien)) {
+            $this->biens[] = $bien;
+            $bien->addCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBien(Bien $bien): self
+    {
+        if ($this->biens->contains($bien)) {
+            $this->biens->removeElement($bien);
+            $bien->removeCategorie($this);
+        }
 
         return $this;
     }

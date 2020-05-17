@@ -19,6 +19,11 @@ class PartenaireRepository extends ServiceEntityRepository
         parent::__construct($registry, Partenaire::class);
     }
 
+    public function liste()
+    {
+        return$this->createQueryBuilder('p')->orderBy('p.nom', "ASC");
+    }
+
     // /**
     //  * @return Partenaire[] Returns an array of Partenaire objects
     //  */
