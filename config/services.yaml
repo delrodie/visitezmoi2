@@ -37,3 +37,4 @@ services:
             $mediaDirectory: '%kernel.project_dir%/public/uploads'
             $partenaireDirectory: '%kernel.project_dir%/public/uploads/partenaire'
             $bienDirectory: '%kernel.project_dir%/public/uploads/bien'
+            $slideDirectory: '%kernel.project_dir%/public/uploads/slide'

@@ -1,0 +1,17 @@
+{{ form_start(form) }}
+    <div class="form-group">
+        <div class="row">
+            <div class="col-12">{{ form_row(form.titre) }}</div>
+            <div class="col-12 mt-3">{{ form_row(form.lien) }}</div>
+            <div class="col-12 mt-3">{{ form_row(form.debut) }}</div>
+            <div class="col-12 mt-3">{{ form_row(form.fin) }}</div>
+            <div class="col-12 mt-3">{{ form_row(form.media) }}</div>
+            <div class="col-12 mt-3">{{ form_row(form.isValid) }}</div>
+        </div>
+    </div>
+    {{ form_widget(form) }}
+    <div class="text-right">
+        <input type="hidden" name="ancien_media" value="{{ slide.media }}">
+        <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+    </div>
+{{ form_end(form) }}

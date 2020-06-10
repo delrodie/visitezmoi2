@@ -1,0 +1,108 @@
+{% extends 'backoffice_layout.html.twig' %}
+
+{% block title %}{{ parent() }} Gestion des Slides{% endblock %}
+
+{% block body %}
+    <div class="page-content-wrapper dashboard">
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">Gestion des slides </h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-xl-8">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h4 class="mt-0 header-title">Liste des slides</h4>
+                            {% for label, messages in app.flashes %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ label }} alert-dismissible fade show d-flex align-items-center" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        {% if label =="success" %}
+                                            <i class="mdi mdi-checkbox-marked-circle font-32"></i>
+                                            <strong class="pr-1">Succes !</strong>
+                                        {% else %}
+                                            <i class="mdi mdi-close-circle font-32"></i>
+                                            <strong class="pr-1">Erreur !</strong>
+                                        {% endif %}
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+
+                            <div class="row">
+                                {% for slide in slides %}
+                                    <div class="col-md-6">
+                                        <div class="card m-b-30">
+                                            <img class="card-img-top img-fluid" src="{{ absolute_url(asset('uploads/slide/' ~ slide.media)) }}" alt="{{ slide.titre }}">
+                                            <div class="card-body">
+                                                <a href="#" class="float-right text-primary" title="Voir le bien correspondant"><i class="fa fa-eye"></i></a>
+                                                <h5 class="card-title"><a href="{{ path('slide_edit', {'id': slide.id}) }}" title="Modifier">{{ slide.titre }}</a></h5>
+                                                <p class="card-text">
+                                                    <small class="text-muted">
+                                                        {% if slide.isValid %}
+                                                            <span class="badge badge-info">Activé</span>
+                                                        {% else %}
+                                                            <span class="badge badge-danger">Désactivé</span>
+                                                        {% endif %}
+                                                    </small>
+                                                    <small>
+                                                        <a href="#" class="float-right"><i class="fa fa-calendar"></i> Affichage du : {{ slide.debut }} au {{ slide.fin }}</a>
+                                                    </small>
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-xl-4">
+                    <div class="card m-b-30">
+                        <div class="card-body">
+
+                            <h4 class="mt-0 header-title">Enregistrerment</h4>
+
+                            {{ include('slide/_form.html.twig') }}
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <script>
+        $('.datepicker-debut').datepicker({
+            uiLibrary: 'bootstrap4',
+            format: 'yyyy-mm-dd',
+        });
+        $('.datepicker-fin').datepicker({
+            uiLibrary: 'bootstrap4',
+            format: 'yyyy-mm-dd'
+        });
+        $(".tag").tagsinput();
+    </script>
+{% endblock %}
