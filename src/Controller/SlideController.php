@@ -7,7 +7,7 @@ use App\Form\SlideType;
 use App\Repository\SlideRepository;
 use App\Utilities\GestionLog;
 use App\Utilities\GestionMedia;
-use Cocur\Slugify\Slugify;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,11 +20,13 @@ class SlideController extends AbstractController
 {
     private $log;
     private $gestionMedia;
+    private $paginator;
 
-    public function __construct(GestionMedia $gestionMedia, GestionLog $log)
+    public function __construct(GestionMedia $gestionMedia, GestionLog $log, PaginatorInterface $paginator)
     {
         $this->log = $log;
         $this->gestionMedia = $gestionMedia;
+        $this->paginator = $paginator;
     }
 
     /**
@@ -71,9 +73,15 @@ class SlideController extends AbstractController
         $action = $this->getUser()->getUsername()." a consulter la liste des slides ";
         $this->log->addLog($action);
 
+        $slideListe = $slideRepository->findBy([],['id'=>'DESC']);
+        $slides = $this->paginator->paginate(
+            $slideListe,
+            $request->query->getInt('page', 1), 4
+        );
+
 
         return $this->render('slide/index.html.twig', [
-            'slides' => $slideRepository->findBy([],['id'=>'DESC']),
+            'slides' => $slides,
             'slide' => $slide,
             'form' => $form->createView(),
         ]);
@@ -150,8 +158,14 @@ class SlideController extends AbstractController
         $action = $this->getUser()->getUsername()." a tenté de modifier le slide ".$slide->getTitre();
         $this->log->addLog($action);
 
+        $slideListe = $slideRepository->findBy([],['id'=>'DESC']);
+        $slides = $this->paginator->paginate(
+            $slideListe,
+            $request->query->getInt('page', 1), 4
+        );
+
         return $this->render('slide/edit.html.twig', [
-            'slides' => $slideRepository->findBy([],['id'=>'DESC']),
+            'slides' => $slides,
             'slide' => $slide,
             'form' => $form->createView(),
         ]);
