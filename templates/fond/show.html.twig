@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fond{% endblock %}
+
+{% block body %}
+    <h1>Fond</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ fond.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ fond.titre }}</td>
+            </tr>
+            <tr>
+                <th>Media</th>
+                <td>{{ fond.media }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('fond_index') }}">back to list</a>
+
+    <a href="{{ path('fond_edit', {'id': fond.id}) }}">edit</a>
+
+    {{ include('fond/_delete_form.html.twig') }}
+{% endblock %}

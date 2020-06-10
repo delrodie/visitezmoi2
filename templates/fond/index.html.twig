@@ -1,0 +1,138 @@
+{% extends 'backoffice_layout.html.twig' %}
+
+{% block title %}{{ parent() }} Gestion des fonds  de catégorie{% endblock %}
+
+{% block body %}
+    <div class="page-content-wrapper dashboard">
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">Gestion des fonds  de catégorie </h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-xl-8">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h4 class="mt-0 header-title">Liste des fonds  de catégorie</h4>
+                            {% for label, messages in app.flashes %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ label }} alert-dismissible fade show d-flex align-items-center" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        {% if label =="success" %}
+                                            <i class="mdi mdi-checkbox-marked-circle font-32"></i>
+                                            <strong class="pr-1">Succes !</strong>
+                                        {% else %}
+                                            <i class="mdi mdi-close-circle font-32"></i>
+                                            <strong class="pr-1">Erreur !</strong>
+                                        {% endif %}
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+
+                            <div class="row">
+                                {% for fond in fonds %}
+                                    <div class="col-md-6">
+                                        <div class="card m-b-30">
+                                            <img class="card-img-top img-fluid" src="{{ absolute_url(asset('uploads/fonds/' ~ fond.media)) }}" alt="{{ fond.titre }}">
+                                            <div class="card-body">
+                                                <a href="#" class="float-right text-primary" title="Voir l'affichage"><i class="fa fa-eye"></i></a>
+                                                <h5 class="card-title"><a href="{{ path('fond_edit', {'id': fond.id}) }}" title="Modifier">{{ fond.titre }}</a></h5>
+                                                <p class="card-text">
+                                                    <small class="text-muted">
+                                                        {{fond.categorie.libelle}}
+                                                    </small>
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-12 text-center">
+                                    {{ knp_pagination_render(fonds) }}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-xl-4">
+                    <div class="card m-b-30">
+                        <div class="card-body">
+
+                            <h4 class="mt-0 header-title">Enregistrerment</h4>
+
+                            {{ include('fond/_form.html.twig') }}
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('backoffice/plugins/select2/select2.min.css') }}">
+    <style type="text/css">
+        .rubrique-select{
+            background-color: rgba(105, 103, 154, 0.3) !important;
+        }
+        .rubrique-select:focus{
+            outline: none;
+        }
+        .rubrique-select{
+            color: rgba(0, 0, 0, 0.5);
+            line-height: 38px;
+        }
+        .rubrique-select__choice{
+            margin-top: 7px;
+            background-color: rgba(105, 103, 154, 0.3);
+        }
+        .select--container--default{
+            color: #0b0b0b;
+            background-color: #6b6096;
+        }
+        .select2-dropdown {
+            background-color: #6b6096;
+            color: rgba(255, 255, 255, 0.5);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            background-color: #444444;
+            color: #fff;
+        }
+
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: #3e6b7f;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .select2-container--default .select2-results__option[aria-selected=true] {
+            background-color: #365d6e;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('backoffice/plugins/select2/select2.min.js') }}"></script>
+    <script>
+        $('.rubrique-select').select2();
+    </script>
+{% endblock %}

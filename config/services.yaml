@@ -38,3 +38,4 @@ services:
             $partenaireDirectory: '%kernel.project_dir%/public/uploads/partenaire'
             $bienDirectory: '%kernel.project_dir%/public/uploads/bien'
             $slideDirectory: '%kernel.project_dir%/public/uploads/slide'
+            $fondDirectory: '%kernel.project_dir%/public/uploads/fonds'

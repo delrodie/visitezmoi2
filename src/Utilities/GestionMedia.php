@@ -14,13 +14,15 @@ class GestionMedia
     private $mediaUpload;
     private $mediaBien;
     private $mediaSlide;
+    private $mediaFond;
 
-    public function __construct($partenaireDirectory, $mediaDirectory, $bienDirectory, $slideDirectory)
+    public function __construct($partenaireDirectory, $mediaDirectory, $bienDirectory, $slideDirectory, $fondDirectory)
     {
         $this->mediaPartenaire = $partenaireDirectory;
         $this->mediaUpload = $mediaDirectory;
         $this->mediaBien = $bienDirectory;
         $this->mediaSlide = $slideDirectory;
+        $this->mediaFond = $fondDirectory;
     }
 
     /**
@@ -43,6 +45,7 @@ class GestionMedia
             if ($media === 'logo') $file->move($this->mediaPartenaire, $newFilename);
             elseif ($media === 'media') $file->move($this->mediaBien, $newFilename);
             elseif ($media === 'slide_media') $file->move($this->mediaSlide, $newFilename);
+            elseif ($media === 'fond_media') $file->move($this->mediaFond, $newFilename);
             else $file->move($this->mediaUpload, $newFilename);
         }catch (FileException $e){
 
@@ -64,6 +67,7 @@ class GestionMedia
         if ($media === 'photo') unlink($this->mediaPartenaire.'/'.$ancienMedia);
         elseif ($media === 'media') unlink($this->mediaBien.'/'.$ancienMedia);
         elseif ($media === 'slide_media') unlink($this->mediaSlide.'/'.$ancienMedia);
+        elseif ($media === 'fond_media') unlink($this->mediaFond.'/'.$ancienMedia);
         else return false;
 
         return true;

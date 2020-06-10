@@ -1,0 +1,6 @@
+<form method="post" action="{{ path('fond_delete', {'id': fond.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer ce fond?');">
+    <input type="hidden" name="ancien_media" value="{{ fond.media }}">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ fond.id) }}">
+    <button class="btn btn-danger">Supprimer</button>
+</form>

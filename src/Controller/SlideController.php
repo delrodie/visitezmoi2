@@ -44,6 +44,8 @@ class SlideController extends AbstractController
             $verif = $slideRepository->findOneBy(['titre'=>$slide->getTitre()]);
             if ($verif){
                 $this->addFlash('danger', "Oups! Ce fichier existe déjà. Merci d'en enregistrer un autre ou de changer de titre");
+
+                return $this->redirectToRoute('slide_index');
             }
 
             // Gestion des fichiers
