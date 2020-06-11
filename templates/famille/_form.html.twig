@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+    <div class="form-group">
+        <div class="row">
+            <div class="col-12">{{ form_row(form.libelle) }}</div>
+            <div class="col-12 mt-3">{{ form_row(form.code) }}</div>
+        </div>
+    </div>
+    {{ form_widget(form) }}
+    <div class="text-right mt-5">
+        <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+    </div>
+{{ form_end(form) }}
