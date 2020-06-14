@@ -4,6 +4,7 @@
 namespace App\Utilities;
 
 
+use App\Repository\BienRepository;
 use App\Repository\CategorieRepository;
 use App\Repository\DomaineRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,12 +14,14 @@ class Utility
     private $categoryRepository;
     private $domaineRepository;
     private $em;
+    private $bienRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, CategorieRepository $categorieRepository, DomaineRepository $domaineRepository)
+    public function __construct(EntityManagerInterface $entityManager, CategorieRepository $categorieRepository, DomaineRepository $domaineRepository, BienRepository $bienRepository)
     {
         $this->em = $entityManager;
         $this->categoryRepository = $categorieRepository;
         $this->domaineRepository = $domaineRepository;
+        $this->bienRepository  = $bienRepository;
     }
 
     /**
@@ -54,4 +57,39 @@ class Utility
 
         return true;
     }
+
+    /**
+     * Augmentation du nombre de produit dans la table bien
+     *
+     * @param $bienID
+     * @return bool|null
+     */
+    public function addProduit($bienID):?bool
+    {
+        $bien = $this->bienRepository->findOneBy(['id'=>$bienID]);
+        $nombreProduit = $bien->getNombreProduit() + 1;
+
+        $bien->setNombreProduit($nombreProduit);
+        $this->em->flush();
+
+        return true;
+    }
+
+    /**
+     * Reduction du nombre de produit dans la table Bien
+     *
+     * @param $bienID
+     * @return bool|null
+     */
+    public function deleteProduit($bienID):?bool
+    {
+        $bien = $this->bienRepository->findOneBy(['id'=>$bienID]);
+        $nombreProduit = $bien->getNombreProduit() - 1;
+
+        $bien->setNombreProduit($nombreProduit);
+        $this->em->flush();
+
+        return true;
+    }
+
 }

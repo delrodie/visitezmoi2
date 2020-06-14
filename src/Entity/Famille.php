@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +37,16 @@ class Famille
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\ProduitMagasin", mappedBy="famille")
+     */
+    private $produitMagasins;
+
+    public function __construct()
+    {
+        $this->produitMagasins = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -85,6 +97,34 @@ class Famille
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProduitMagasin[]
+     */
+    public function getProduitMagasins(): Collection
+    {
+        return $this->produitMagasins;
+    }
+
+    public function addProduitMagasin(ProduitMagasin $produitMagasin): self
+    {
+        if (!$this->produitMagasins->contains($produitMagasin)) {
+            $this->produitMagasins[] = $produitMagasin;
+            $produitMagasin->addFamille($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduitMagasin(ProduitMagasin $produitMagasin): self
+    {
+        if ($this->produitMagasins->contains($produitMagasin)) {
+            $this->produitMagasins->removeElement($produitMagasin);
+            $produitMagasin->removeFamille($this);
+        }
 
         return $this;
     }

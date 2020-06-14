@@ -19,6 +19,10 @@ class FamilleRepository extends ServiceEntityRepository
         parent::__construct($registry, Famille::class);
     }
 
+    public function liste(){
+        return $this->createQueryBuilder('f')->orderBy('f.libelle', "ASC");
+    }
+
     // /**
     //  * @return Famille[] Returns an array of Famille objects
     //  */

@@ -1,6 +1,6 @@
 {% extends 'backoffice_layout.html.twig' %}
 
-{% block title %}{{ parent() }} Gestion des biens{% endblock %}
+{% block title %}{{ parent() }} Gestion des produits magasins{% endblock %}
 
 {% block body %}
     <div class="page-content-wrapper dashboard">
@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="page-title-box">
-                        <h4 class="page-title">Gestion des biens </h4>
+                        <h4 class="page-title">Gestion des produits magasins </h4>
                     </div>
                 </div>
             </div>
@@ -22,9 +22,9 @@
 
                             <h4 class="mt-0 mb-5 header-title">
                                 <div class="float-right">
-                                    <a href="{{ path('bien_new') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Ajouter un bien</a>
-                                    <a href="{{ path('bien_edit',{'id': bien.id}) }}" class="btn btn-danger"><i class="fa fa-edit"></i> Modifier</a>
-                                    <a href="{{ path('bien_index') }}" class="btn btn-secondary"><i class="fa fa-list"></i> Liste des biens</a>
+                                    <a href="{{ path('produit_magasin_new') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Ajouter un produit_magasin</a>
+                                    <a href="{{ path('produit_magasin_edit',{'id': produit_magasin.id}) }}" class="btn btn-danger"><i class="fa fa-edit"></i> Modifier</a>
+                                    <a href="{{ path('produit_magasin_index') }}" class="btn btn-secondary"><i class="fa fa-list"></i> Liste des produit_magasins</a>
                                 </div>
                             </h4>
 
@@ -32,16 +32,16 @@
                                 <div class="col-md-5 col-lg-3">
                                     <div class="card m-b-30">
                                         <div class="card-body">
-                                            <img src="{{ asset('uploads/partenaire/' ~ bien.partenaire.logo) }}" alt="" class="rounded-circle  mx-auto d-block w-80">
+                                            <img src="{{ asset('uploads/partenaire/' ~ produit_magasin.bien.partenaire.logo) }}" alt="" class="rounded-circle  mx-auto d-block w-80">
                                             <div class="text-center">
-                                                <div class="mt-2 mb-0">{{ bien.partenaire.nom }}</div>
-                                                <small class="text-muted mb-2 p-2">{{ bien.partenaire.email }}</small>
-                                                <button class="btn btn-primary btn-block mb-2 mt-5">Liste des biens </button>
+                                                <div class="mt-2 mb-0">{{ produit_magasin.bien.partenaire.nom }}</div>
+                                                <small class="text-muted mb-2 p-2">{{ produit_magasin.bien.partenaire.email }}</small>
+                                                <button class="btn btn-primary btn-block mb-2 mt-5">Liste des produit_magasins </button>
                                             </div>
                                             <div class="row text-center">
                                                 <div class="col-12 align-self-center p-0">
-                                                    <p class="font-32 mb-0">{{ bien.partenaire.biens|length }}</p>
-                                                    <p class="mb-0">biens</p>
+                                                    <p class="font-32 mb-0">{{ produit_magasin.bien.partenaire.biens|length }}</p>
+                                                    <p class="mb-0">produit_magasins</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -49,16 +49,16 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="card m-b-30">
-                                                <h6 class="header-title pb-3 pt-2 pr-2">AUTRES BIENS</h6>
+                                                <h6 class="header-title pb-3 pt-2 pr-2">AUTRES produit_magasinS</h6>
                                                 <ul class="list-unstyled">
-                                                    {% for biens in bien.partenaire.biens|slice(0,6) %}
+                                                    {% for bien in produit_magasin.bien.partenaire.biens|slice(0,6) %}
                                                         <li>
                                                             <div class="row justify-content-between align-items-baseline">
                                                                 <div class="col-3 text-center align-items-center">
-                                                                    <img src="{{ asset('uploads/bien/'~ biens.media) }}" alt="" class="rounded-circle w-100">
+                                                                    <img src="{{ asset('uploads/bien/'~ bien.media) }}" alt="" class="rounded-circle w-100">
                                                                 </div>
                                                                 <div class="col-9">
-                                                                    <a href="#">{{ biens.titre }}</a>
+                                                                    <a href="#">{{ bien.titre }}</a>
                                                                 </div>
                                                             </div>
 
@@ -72,24 +72,24 @@
                                 </div>
                                 <div class="col-md-7 col-lg-9">
                                     <div class="card m-b-30">
-                                        <img class="card-img-top img-fluid" src="{{ absolute_url(asset('uploads/bien/' ~ bien.media)) }}" alt="{{ bien.titre }}">
+                                        <img class="card-img-top img-fluid" src="{{ absolute_url(asset('uploads/produits/' ~ produit_magasin.media)) }}" alt="{{ produit_magasin.reference }}">
                                         <div class="card-body">
                                             <p class="card-text">
-                                                <a href="#" class="float-right"><span class="badge badge-danger">{{ bien.partenaire.nom }}</span> </a>
+                                                <a href="#" class="float-right"><span class="badge badge-danger">{{ produit_magasin.marque }}</span> </a>
                                             </p>
-                                            <h5 class="card-title"><span class="badge badge-primary">{{ bien.mode.libelle }}</span> <a href="{{ path('bien_show', {'id': bien.id}) }}">{{ bien.titre }}</a></h5>
+                                            <h5 class="card-title"><span class="badge badge-primary">{{ produit_magasin.mode.libelle }}</span> <a href="{{ path('produit_magasin_show', {'id': produit_magasin.id}) }}">{{ produit_magasin.reference }}</a></h5>
                                             <p class="card-text">
-                                                {{ bien.description|raw }}
+                                                {{ produit_magasin.description|raw }}
                                             </p>
                                             <p class="card-text">
                                                 <small class="text-muted">
-                                                    {% for categorie in bien.categorie %}
-                                                        <span class="badge badge-info">{{ categorie.libelle }}</span>
+                                                    {% for famille in produit_magasin.famille %}
+                                                        <span class="badge badge-info">{{ famille.libelle }}</span>
                                                     {% endfor %}
                                                 </small>
                                                 <a href="#" class="float-right"><i class="fa fa-calendar"></i> </a>
                                             </p>
-                                            {{ include('bien/_delete_form.html.twig') }}
+                                            {{ include('produit_magasin/_delete_form.html.twig') }}
                                         </div>
 
                                     </div>

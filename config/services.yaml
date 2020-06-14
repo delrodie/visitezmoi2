@@ -39,3 +39,4 @@ services:
             $bienDirectory: '%kernel.project_dir%/public/uploads/bien'
             $slideDirectory: '%kernel.project_dir%/public/uploads/slide'
             $fondDirectory: '%kernel.project_dir%/public/uploads/fonds'
+            $produitDirectory: '%kernel.project_dir%/public/uploads/produits'

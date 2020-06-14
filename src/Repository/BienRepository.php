@@ -19,6 +19,10 @@ class BienRepository extends ServiceEntityRepository
         parent::__construct($registry, Bien::class);
     }
 
+    public function liste(){
+        return $this->createQueryBuilder('b');
+    }
+
     // /**
     //  * @return Bien[] Returns an array of Bien objects
     //  */

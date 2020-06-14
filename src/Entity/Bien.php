@@ -113,9 +113,15 @@ class Bien
      */
     private $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProduitMagasin", mappedBy="bien")
+     */
+    private $produitMagasins;
+
     public function __construct()
     {
         $this->categorie = new ArrayCollection();
+        $this->produitMagasins = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -361,6 +367,37 @@ class Bien
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProduitMagasin[]
+     */
+    public function getProduitMagasins(): Collection
+    {
+        return $this->produitMagasins;
+    }
+
+    public function addProduitMagasin(ProduitMagasin $produitMagasin): self
+    {
+        if (!$this->produitMagasins->contains($produitMagasin)) {
+            $this->produitMagasins[] = $produitMagasin;
+            $produitMagasin->setBien($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduitMagasin(ProduitMagasin $produitMagasin): self
+    {
+        if ($this->produitMagasins->contains($produitMagasin)) {
+            $this->produitMagasins->removeElement($produitMagasin);
+            // set the owning side to null (unless already changed)
+            if ($produitMagasin->getBien() === $this) {
+                $produitMagasin->setBien(null);
+            }
+        }
 
         return $this;
     }

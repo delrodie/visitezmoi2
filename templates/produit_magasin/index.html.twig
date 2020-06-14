@@ -1,0 +1,86 @@
+{% extends 'backoffice_layout.html.twig' %}
+
+{% block title %}{{ parent() }} Gestion des produits magasins{% endblock %}
+
+{% block body %}
+    <div class="page-content-wrapper dashboard">
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">Gestion des produits magasins </h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h4 class="mt-0 header-title">
+                                Liste des produits magasins
+                                <div class="float-right">
+                                    <a href="{{ path('produit_magasin_new') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Ajouter un produit magasin</a>
+                                </div>
+                            </h4>
+
+                            {% for label, messages in app.flashes %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ label }} alert-dismissible fade show d-flex align-items-center" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        {% if label =="success" %}
+                                            <i class="mdi mdi-checkbox-marked-circle font-32"></i>
+                                            <strong class="pr-1">Succes !</strong>
+                                        {% else %}
+                                            <i class="mdi mdi-close-circle font-32"></i>
+                                            <strong class="pr-1">Erreur !</strong>
+                                        {% endif %}
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+
+                            <div class="row">
+                                {% for produit in produit_magasins %}
+                                    <div class="col-md-6 col-xl-4">
+                                        <div class="card m-b-30">
+                                            <img class="card-img-top img-fluid" src="{{ absolute_url(asset('uploads/produits/' ~ produit.media)) }}" alt="{{ produit.reference }}">
+                                            <div class="card-body">
+                                                <p class="card-text">
+                                                    <a href="#" class="float-right"><span class="badge badge-danger">{{ produit.bien.partenaire.nom }}</span> </a>
+                                                </p>
+                                                <h5 class="card-title"><span class="badge badge-primary"></span> <a href="{{ path('produit_magasin_show', {'id': produit.id}) }}">{{ produit.reference }}</a></h5>
+                                                <p class="card-text">
+                                                    {{ produit.description|striptags|slice(0,75)|raw }}...
+                                                </p>
+                                                <p class="card-text">
+                                                    <small class="text-muted">
+                                                        {% for famille in produit.famille %}
+                                                            <span class="badge badge-info">{{ famille.libelle }}</span>
+                                                        {% endfor %}
+                                                    </small>
+                                                    <!--<a href="#" class="float-right"><i class="fa fa-calendar"></i> </a>-->
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

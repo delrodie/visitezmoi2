@@ -1,0 +1,49 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_row(form.bien) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.famille) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.reference) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.marque) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.mode) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.prix) }}
+        </div>
+
+
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_row(form.description) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_row(form.media) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_row(form.tags) }}
+        </div>
+    </div>
+</div>
+    {{ form_widget(form) }}
+    <div class="text-right">
+        <input type="hidden" name="ancien_media"value="{{ produit_magasin.media }}">
+        <input type="hidden" name="ancien_bien" value="{{ produit_magasin.bien }}">
+        <a href="#" class="btn btn-secondary">Pas encore disponible</a>
+        <!--<button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>-->
+    </div>
+
+{{ form_end(form) }}
