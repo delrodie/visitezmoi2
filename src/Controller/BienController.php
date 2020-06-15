@@ -109,6 +109,23 @@ class BienController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Creation du slug du parteniaire
+            $slugify = new Slugify();
+            $slug = $slugify->slugify($bien->getTitre());
+            $bien->setSlug($slug);
+
+            // Gestion des fichiers
+            $mediaFile = $form->get('media')->getData();
+            $ancienMedia = $request->get('ancien_media');
+
+            // Traitement du fichier s'il a été telechargé
+            if ($mediaFile){
+                $media = $this->gestionMedia->upload($mediaFile, 'media');
+
+                $bien->setMedia($media);
+                $this->gestionMedia->removeUpload($ancienMedia, 'media');
+            }
             $this->getDoctrine()->getManager()->flush();
 
             //Enregistrerment du log
@@ -134,13 +151,25 @@ class BienController extends AbstractController
     public function delete(Request $request, Bien $bien): Response
     {
         if ($this->isCsrfTokenValid('delete'.$bien->getId(), $request->request->get('_token'))) {
+
+            // Verification d'absence de produit
+            if ($bien->getProduitMagasins()){
+                $this->addFlash('danger', "Echec! vous ne pouvez pas supprimer ce bien car il est associé à des produits");
+                return $this->redirectToRoute('bien_show',['id'=>$bien->getId()]);
+            }
+            // Traitement post-suppression
             $action = $this->getUser()->getUsername()." a supprimé le bien ".$bien->getTitre();
+            $ancienMedia = $bien->getMedia();
+            $bienSupprime = $bien;
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($bien);
             $entityManager->flush();
 
             //Enregistrerment du log
             $this->log->addLog($action);
+            $this->gestionMedia->removeUpload($ancienMedia, 'media');
+            $this->addFlash('succes', "Le bien".$bienSupprime->getTitre()." a bien été supprimé.");
         }
 
         return $this->redirectToRoute('bien_index');
