@@ -6,15 +6,24 @@
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    h1{
+        text-align: center;}
+    h2{
+        margin-top: 200px;
+        text-align: right;}
+    ul li{
+        text-align: center; list-style-type: none;
+        margin-top: 100px;}
 </style>
 
 <div class="example-wrapper">
-    <h1>Base de symfony 5</h1>
+    <h1>VISITEZMOI V2</h1>
 
     <ul>
-        <li>Connexion<code><a href="{{ path('app_login') }}">Connexion</a></code></li>
         <li> <code><a href="{{ path('mode_index') }}">Backoffice</a></code></li>
-        <li> <code><a href="{{ path('app_monitoring') }}">Log</a></code></li>
+        <!--<li>Connexion<code><a href="{{ path('app_login') }}">Connexion</a></code></li>
+        <li> <code><a href="{{ path('app_monitoring') }}">Log</a></code></li>-->
     </ul>
+    <h2>En maintenance...</h2>
 </div>
 {% endblock %}
